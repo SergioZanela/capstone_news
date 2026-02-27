@@ -213,7 +213,7 @@ The project is separated into apps by responsibility:
 
 # 📁 Project Structure
 
-'''text
+```text
 capstone_news/
 │
 ├── manage.py
@@ -255,7 +255,7 @@ capstone_news/
 │
 └── static/
     └── ...
-'''
+```
 
 ---
 
