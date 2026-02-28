@@ -26,17 +26,15 @@ This project supports:
 
 ---
 
-## 🧾 Registration Workflow (Planned Approval System)
-- ✅ **Reader** registration is instant:
-  - account is active immediately
-  - auto-login after registering
-- 🕒 **Journalist** and **Editor** registration requires admin approval:
-  - account is created as inactive (`is_active=False`)
-  - user cannot login until an admin activates the account in Django admin
-  - admin has an “Approve selected users” action for quick approvals
+## Registration Workflow
+All users can register directly through the application.
 
-**Register URL:**  
-`/accounts/register/`
+Supported roles:
+- Reader
+- Journalist
+- Editor
+
+After registration, the user is logged in automatically and redirected to the homepage.
 
 ---
 
@@ -84,13 +82,18 @@ When an editor approves an article, the app emails all readers subscribed to:
 - the article’s **publisher**
 - and/or the article’s **journalist (author)**
 
-### Development setup
-Emails are printed in the terminal using Django’s console backend:
+## Email Notifications
+When an editor approves an article, the application sends an email notification directly to subscribed readers.
 
-```python
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-DEFAULT_FROM_EMAIL = "noreply@capstonenews.local"
-```
+Email delivery is configured using Gmail SMTP with environment variables.
+
+Required email environment variables:
+- EMAIL_HOST
+- EMAIL_PORT
+- EMAIL_USE_TLS
+- EMAIL_HOST_USER
+- EMAIL_HOST_PASSWORD
+- DEFAULT_FROM_EMAIL
 
 ---
 
@@ -361,13 +364,26 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-Environment variables used by the project:
+## Environment variables used by the project:
+
+### Database (MariaDB)
+Set the following environment variables before running the project:
 
 - `DB_NAME`
 - `DB_USER`
 - `DB_PASSWORD`
 - `DB_HOST`
 - `DB_PORT`
+
+### Email (SMTP)
+Set the following environment variables before sending emails:
+
+- EMAIL_HOST
+- EMAIL_PORT
+- EMAIL_USE_TLS
+- EMAIL_HOST_USER
+- EMAIL_HOST_PASSWORD
+- DEFAULT_FROM_EMAIL
 
 ## Resubmission Notes
 
