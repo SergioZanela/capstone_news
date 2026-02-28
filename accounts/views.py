@@ -7,35 +7,26 @@ from .forms import CustomUserRegistrationForm
 
 def register(request):
     """
-    Public registration view for Reader / Journalist accounts.
+    Public registration view for Reader, Journalist, and Editor accounts.
+    All roles are registered immediately with no admin approval required.
     """
     if request.user.is_authenticated:
         return redirect("article_list")
 
     if request.method == "POST":
         form = CustomUserRegistrationForm(request.POST)
-        user = form.save()
-        # Reader is approved immediately
-        if user.role == "Reader":
+
+        if form.is_valid():
+            user = form.save()
             user.is_active = True
             user.save(update_fields=["is_active"])
+
             login(request, user)
             messages.success(
                 request,
                 "Account created successfully. You are now logged in."
             )
             return redirect("article_list")
-
-        # Journalist / Editor require admin approval
-        user.is_active = False
-        user.save(update_fields=["is_active"])
-
-        messages.info(
-            request,
-            "Your account request has been submitted and is pending "
-            "admin approval. You will be able to log in once approved."
-        )
-        return redirect("login")
     else:
         form = CustomUserRegistrationForm()
 
